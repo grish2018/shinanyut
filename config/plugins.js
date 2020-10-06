@@ -1,4 +1,5 @@
 module.exports = [
+  '@plugins/vuetify',
   '~/plugins/initStore.js',
   '~/plugins/vue-awesome.js',
   { src: '~/plugins/on-outside.js', ssr: false },

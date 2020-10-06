@@ -1,13 +1,40 @@
 <template>
-  <a class="header-catalog-btn button button--secondary" href="/catalog/">
+  <a class="header-catalog-btn button button--secondary" href="#" @click.prevent="toggleCatalog">
     <Icon class="header-catalog-btn__icon header-catalog-btn__icon--catalog" name="gm-catalog" />
     <span class="header-catalog-btn__label">Каталог</span>
-    <Icon class="header-catalog-btn__icon header-catalog-btn__icon--angle-top" name="gm-angle-top" />
+    <Icon :class="isActive ? 'header-catalog-btn__icon header-catalog-btn__icon--angle-down' : 'header-catalog-btn__icon header-catalog-btn__icon--angle-up'" name="gm-angle-top" />
   </a>
 </template>
 
 <script>
 export default {
+  computed: {
+    isActive() {
+      return this.$store.getters.getShowCatalog;
+    },
+    isMenuOpen() {
+      return this.$store.getters.getSowMenu;
+    },
+  },
+  methods: {
+    toggleCatalog() {
+      if (this.isMenuOpen && !this.isActive) {
+        this.$store.commit('HIDE_MENU');
+        this.$store.commit('SHOW_CATALOG');
+        this.$router.push('/catalog');
+      } else if (this.isMenuOpen && this.isActive) {
+        this.$store.commit('HIDE_MENU');
+        this.$store.commit('SHOW_CATALOG');
+        this.$router.push('/catalog');
+      } else if (!this.isActive) {
+        this.$store.commit('SHOW_CATALOG');
+        this.$router.push('/catalog');
+      } else {
+        this.$store.commit('HIDE_CATALOG');
+        this.$router.push('/');
+      }
+    },
+  },
 };
 </script>
 
@@ -52,10 +79,15 @@ export default {
       }
     }
 
-    &--angle-top {
+    &--angle-up {
       width: 10px;
       height: 10px;
-      transform: rotate(var(--icon--angle-top-rotate));
+    }
+
+    &--angle-down {
+      width: 10px;
+      height: 10px;
+      transform: rotate(-180deg);
     }
   }
 }
